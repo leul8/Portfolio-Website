@@ -1,90 +1,79 @@
-import React from 'react';
+import React from "react";
+import { motion } from "framer-motion";
 import Reveal from "./Reveal";
 
-const Skills = () => {
-  
-  const skills = [
-    { name: 'HTML', level: 94 },
-    { name: 'CSS', level: 84 },
-    { name: 'JavaScript', level: 74 },
-    { name: 'Bootstrap', level: 80 },
-    { name: 'Git & GitHub', level: 75 },
-    { name: 'React', level: 80 },
-    { name: 'Java', level: 80 },
-    { name: 'Python', level: 70 },
-    { name: 'SQL', level: 70 },
-    { name: 'Tailwind CSS', level: 70 },
-    { name: 'C#', level: 70 },
-  ];
-  
-  return (
-    <section id="skills" className="bg-white dark:bg-gray-900 py-20 px-4 md:px-20 relative overflow-hidden min-h-screen"
->
-      <style>
-        {`
-          @keyframes drop {
-            0% {
-              transform: translateY(-100px);
-              opacity: 1;
-            }
-            100% {
-              transform: translateY(500px);
-              opacity: 0;
-            }
-          }
+const skills = [
+  { name: "HTML", level: 94 },
+  { name: "CSS", level: 84 },
+  { name: "JavaScript", level: 74 },
+  { name: "Bootstrap", level: 80 },
+  { name: "Git & GitHub", level: 75 },
+  { name: "React", level: 80 },
+  { name: "Java", level: 80 },
+  { name: "Python", level: 70 },
+  { name: "SQL", level: 70 },
+  { name: "Tailwind CSS", level: 70 },
+  { name: "C#", level: 70 },
+  { name: "AWS Cloud", level: 75 },
+  { name: "Oracle Cloud", level: 70 },
+  { name: "Docker & Kubernetes", level: 75 },
+  { name: "Node.js", level: 80 },
+];
 
-          .snowflake {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            animation: drop linear infinite;
-            clip-path: polygon(
-              50% 0%, 
-              61% 35%, 
-              98% 35%, 
-              68% 57%, 
-              79% 91%, 
-              50% 70%, 
-              21% 91%, 
-              32% 57%, 
-              2% 35%, 
-              39% 35%
-            );
-          }
-        `}
-      </style>
-      
-      <div className="container mx-auto text-center md:text-left"> <Reveal>
-        <h2 className="text-3xl md:text-4xl font-bold mb-8 dark:text-white text-blue-500">Skills</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-         
-          {skills.map((skill, index) => (
-            <div key={index} className="w-full">
-              <h3 className="text-sm font-semibold dark:text-gray-300">{skill.name}</h3>
-              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                <div className="bg-blue-500 dark:bg-blue-500 h-2 rounded-full" style={{ width: `${skill.level}%` }} />
-                
-              </div>
-              
-            </div>
-          ))}
-        </div></Reveal>
+const SkillBar = ({ name, level, index }) => {
+  return (
+    <motion.div
+      className="flex flex-col gap-2 px-4" // horizontal space inside each item
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.05, duration: 0.5, ease: "easeOut" }}
+    >
+      <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
+        {name}
       </div>
-      
-      {Array.from({ length: 20 }).map((_, index) => (
-        <div
-          key={index}
-          className="snowflake"
-          style={{
-            left: `${Math.random() * 100}vw`,
-            animationDuration: `${2 + Math.random() * 3}s`,
-            animationDelay: `${Math.random() * 5}s`,
-          }}
+      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+        <motion.div
+          className="h-3 rounded-full bg-blue-500 dark:bg-blue-400"
+          initial={{ width: 0 }}
+          animate={{ width: `${level}%` }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
         />
-      ))}
+      </div>
+    </motion.div>
+  );
+};
+
+const Skills = () => {
+  return (
+    <section
+      id="skills"
+      className="bg-white dark:bg-gray-900 py-20 px-6 md:px-8 min-h-screen"
+    >
+      <motion.div
+        className="max-w-5xl mx-auto space-y-12"
+        initial={{ opacity: 0, y: 60 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        viewport={{ once: true }}
+      >
+        <Reveal>
+          <h2 className="text-4xl md:text-5xl font-bold text-blue-500 dark:text-white text-center mb-10">
+            Skills
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-16 gap-y-8">
+            {skills.map((skill, index) => (
+              <SkillBar
+                key={index}
+                name={skill.name}
+                level={skill.level}
+                index={index}
+              />
+            ))}
+          </div>
+        </Reveal>
+      </motion.div>
     </section>
-    
   );
 };
 
